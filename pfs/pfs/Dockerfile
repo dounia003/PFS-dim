@@ -1,2 +1,12 @@
-FROM nginx:latest
-COPY . /usr/share/nginx/html
+FROM php:8.2.12-apache
+
+RUN a2enmod rewrite
+
+COPY . /var/www/html/
+
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
+
+EXPOSE 80
+
+CMD ["apache2-foreground"]
