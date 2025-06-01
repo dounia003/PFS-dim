@@ -1,19 +1,19 @@
 FROM php:8.2.12-apache
 
-# Installer les extensions nécessaires
-RUN docker-php-ext-install pdo pdo_mysql
-
-# Activer les modules Apache utiles
+# Active mod_rewrite
 RUN a2enmod rewrite
 
-# Copier le code de l'application
+# Installe les extensions nécessaires
+RUN docker-php-ext-install pdo pdo_mysql
+
+# Copie les fichiers du projet dans le répertoire web
 COPY . /var/www/html/
 
-# Fixer les permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+# Donne les bons droits aux fichiers
+RUN chown -R www-data:www-data /var/www/html && chmod -R 755 /var/www/html
 
+# Expose le port HTTP
 EXPOSE 80
 
+# Démarre Apache
 CMD ["apache2-foreground"]
-
